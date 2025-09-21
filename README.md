@@ -1,14 +1,37 @@
 # Kinematics for OpenSCAD
 
-A simple forward and inverse kinematics implementation for OpenSCAD
-![animation](https://github.com/BrettRD/kinematics_scad/blob/main/animation/animation.gif "OpenSCAD animation")
+A clean, modern kinematics library for OpenSCAD featuring forward and inverse kinematics for serial robotic chains.
 
-`kinematics.scad` implements forward kinematics for series kinematic chains of arbitrary length, includes numeric differentiation to recover the Jacobian, and features a very simple gradient-descent Inverse-Kinematics solver for end-effector position.
+![Dragon Claw Animation](animation/animation.gif)
 
-This started as a weekend skill-sharpening project to roughly replicate the "Axis" sculpture by Mark Setrakian after it was featured on Tested.com.\
-IK was supposed to be via STL export into ROS2, but I got carried away.
+## Features
 
-`dragon_claw.scad` demonstrates creating poseable assemblies and describing kinematic chians, and is slowly becoming printable
-`ring_animation.scad` demonstrates synthesising desired end-effector coordinates, generating poses, and using the $t parameter from OpenSCAD's animation feature.
+- **Clean API** with consistent `kinematics_*` naming
+- **Forward kinematics** for position and full transforms
+- **Inverse kinematics** using gradient descent with Jacobian
+- **Visualization tools** for debugging and animation
+- **Well-documented** with comprehensive examples
 
-Used by: [dragon_claw](https://github.com/BrettRD/dragon_claw) project for ROS2 by [BrettRD](https://github.com/BrettRD).
+## Requirements
+
+- OpenSCAD 2019.05+
+- [scad-utils](https://github.com/openscad/scad-utils) for matrix operations
+
+## Documentation
+
+📚 **[Documentation](docs/README.md)** - Quick reference and usage
+
+- [API Reference](docs/api-reference.md) - Function documentation
+- [Theory](docs/theory.md) - Mathematical background
+
+## Examples
+
+- **Dragon Claw** (`examples/dragon_claw/`) - 5-finger robotic hand with 15 DOF
+
+## License
+
+Original work by BrettRD (2021-2024), enhanced by Cameron K. Brooks (2025).
+
+## Related Projects
+
+- [dragon_claw](https://github.com/BrettRD/dragon_claw) - ROS2 integration by BrettRD

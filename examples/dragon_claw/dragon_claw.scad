@@ -110,32 +110,32 @@ module assembly(pose = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]) 
   }
 }
 
-module fk_native(
-  i,
-  pose
+module dragon_claw_native_forward_kinematics(
+  claw_index,
+  joint_angles
 ) {
-  translate(knuckle_motor_pos[i][0])
-    rotate(knuckle_motor_pos[i][1])
+  translate(knuckle_motor_pos[claw_index][0])
+    rotate(knuckle_motor_pos[claw_index][1])
       translate(mg90s_shaft_pos())
-        rotate(v=mg90s_shaft_axis(), a=pose[0])
-          translate(finger_motor_pos[i][0])
-            rotate(finger_motor_pos[i][1])
-              rotate(v=-mg90s_shaft_axis(), a=pose[1])
-                translate(claw_motor_pos[i][0])
-                  rotate(claw_motor_pos[i][1])
-                    rotate(v=-mg90s_shaft_axis(), a=pose[2])
-                      translate(claw_point_pos[i][0])
-                        rotate(claw_point_pos[i][1])
+        rotate(v=mg90s_shaft_axis(), a=joint_angles[0])
+          translate(finger_motor_pos[claw_index][0])
+            rotate(finger_motor_pos[claw_index][1])
+              rotate(v=-mg90s_shaft_axis(), a=joint_angles[1])
+                translate(claw_motor_pos[claw_index][0])
+                  rotate(claw_motor_pos[claw_index][1])
+                    rotate(v=-mg90s_shaft_axis(), a=joint_angles[2])
+                      translate(claw_point_pos[claw_index][0])
+                        rotate(claw_point_pos[claw_index][1])
                           children();
 }
 
-module fk_native_marker(
-  i = 0,
-  pose = [0, 0, 0]
+module dragon_claw_show_end_effector(
+  claw_index = 0,
+  joint_angles = [0, 0, 0]
 ) {
-  fk_native(
-    i,
-    pose
+  dragon_claw_native_forward_kinematics(
+    claw_index,
+    joint_angles
   ) sphere(d=5);
 }
 

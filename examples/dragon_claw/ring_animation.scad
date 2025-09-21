@@ -2,7 +2,7 @@ use <../../kinematics.scad>
 
 use <dragon_claw.scad>
 
-$fn = 16;
+$fn = $preview ? 16 : 128;
 
 sphere_rad = 90;
 contact_rad = 70;
@@ -27,7 +27,7 @@ function target_point(i, t) =
     z = contact_centre[2] + step_height * step(t + i / n_points)
   ) [x, y, z];
 
-function pose(chain, dst) = ik_search(chain=chain, dst=dst, margin=0.05, pose=[0, 0, 0]);
+function pose(chain, target_position) = kinematics_inverse_position(chain=chain, target_position=target_position, tolerance=0.05, initial_angles=[0, 0, 0]);
 
 //describes the orientation of the held object
 function ring_angle(t) = -t * step_size;
@@ -36,16 +36,16 @@ translate(contact_centre + [0, 0, 1] * sphere_height)
   rotate([0, 0, ring_angle($t)])
     %sphere(r=sphere_rad);
 
-//for(i=[0:n_points-1]) color("red")   fk_linalg_marker(i=i,pose=[0,0,0]);
-//for(i=[0:n_points-1]) color("red")   fk_native_marker(i=i,pose=pose(i,$t));
+//for(i=[0:n_points-1]) color("red")   kinematics_show_end_effector(claw_kinematic_chains()[i], [0,0,0]);
+//for(i=[0:n_points-1]) color("red")   dragon_claw_show_end_effector(claw_index=i, joint_angles=pose(i,$t));
 
 //for(i=[0:4]) {
 //    %translate(target_point(i,$t)) sphere(d=5);
-//    color("red")   fk_linalg_marker(chain=claw_kinematic_chains()[i],pose=pose(chain=claw_kinematic_chains()[i],dst=target_point(i,$t)));
+//    color("red")   kinematics_show_end_effector(chain=claw_kinematic_chains()[i],joint_angles=pose(chain=claw_kinematic_chains()[i],target_position=target_point(i,$t)));
 //}
 
 target_points = [for (i = [0:n_points - 1]) target_point(i, $t)];
-claw_pose = [for (i = [0:n_points - 1]) pose(chain=claw_kinematic_chains()[i], dst=target_points[i])];
+claw_pose = [for (i = [0:n_points - 1]) pose(chain=claw_kinematic_chains()[i], target_position=target_points[i])];
 echo("pose:", claw_pose);
 assembly(claw_pose);
 //assembly([[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]);
