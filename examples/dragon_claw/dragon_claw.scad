@@ -2,13 +2,18 @@
 use <scad-utils/transformations.scad>
 use <scad-utils/spline.scad>
 
-use <mg90s.scad>
-use <printed_parts.scad>
+use <lib/mg90s.scad>
+use <lib/bearing.scad>
+
+use <printed_parts/palm_part.scad>
+use <printed_parts/knuckle_part.scad>
+use <printed_parts/finger_part.scad>
+use <printed_parts/claw_part.scad>
+use <printed_parts/tail_spacer.scad>
 
 use <../../kinematics.scad>
 
-$fs = 0.2;
-$fa = 1;
+$fn = $preview ? 16 : 128;
 
 //number of claws
 n_claws = 5;
@@ -183,36 +188,35 @@ module layout() {
     }
 }
 
-//render()layout();
-assembly([[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
-//mg90s();
-//mg90s_wire_channel();
+render_select = "printed_parts"; // ["assembly", "layout", "printed_parts", "collision_check", "none"]
 
-//palm_part(knuckle_motor_pos,knuckle_motor_range);
-i = 0;
-//knuckle_part(i, finger_motor_pos,knuckle_motor_range);
-//finger_part(i, claw_motor_pos);
-//claw_part(i, claw_point_pos);
+if (render_select == "assembly") {
+  assembly([[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+} else if (render_select == "layout") {
+  render() layout();
+} else if (render_select == "printed_parts") {
 
-//tail_spacer();
-
-//check for collisions
-/*
-intersection(){
-    i=1;
-    pose = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+  translate([0 * 80, 0, 0]) palm_part(knuckle_motor_pos, knuckle_motor_range);
+  translate([100, 0, 0]) knuckle_part(0, finger_motor_pos, knuckle_motor_range);
+  translate([200, 0, 0]) finger_part(0, claw_motor_pos);
+  translate([280, 0, 0]) claw_part(0, claw_point_pos);
+  translate([320, 0, 0]) tail_spacer();
+} else if (render_select == "collision_check") {
+  intersection() {
+    i = 1;
+    pose = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
     //finger_part(i, claw_motor_pos); //finger shroud
-    finger_bearing_pos(i, claw_motor_pos){
-        //bearing();
-        tail_spacer();
+    finger_bearing_pos(i, claw_motor_pos) {
+      //bearing();
+      tail_spacer();
     }
-    translate(claw_motor_pos[i][0]) rotate(claw_motor_pos[i][1]){
+    translate(claw_motor_pos[i][0]) rotate(claw_motor_pos[i][1]) {
         // origin is claw shaft
         rotate(v=-mg90s_shaft_axis(), a=pose[i][2]) translate(-mg90s_shaft_pos()) {
             // origin is claw motor
             //color("gray")mg90s(a=pose[i][2]);  //claw motor
-            claw_part(i, claw_point_pos);   //pointy bit
-        }
-    }
+            claw_part(i, claw_point_pos); //pointy bit
+          }
+      }
+  }
 }
-*/
