@@ -12,7 +12,7 @@ function parabola_profile(t, n_points) =
     u = unit_phase(t),
     center = 0.5 / n_points,
     halfspan = 0.5 / n_points
-  ) 1 - pow((u - center) / halfspan, 2);
+  ) max(0, 1 - pow((u - center) / halfspan, 2));
 
 // Step profile: nonzero only in first 1/n_points, shaped by parabola
 function step_profile(t, n_points) =
