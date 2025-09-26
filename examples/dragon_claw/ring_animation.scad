@@ -3,11 +3,15 @@ use <dragon_claw.scad>
 
 $fn = $preview ? 16 : 128;
 
+// --- Constants ---
 sphere_rad = 90;
 contact_rad = 70;
 contact_centre = [0, 20, 90];
 step_height = -10;
 n_points = 5;
+base_offset_angle = -15;
+
+sphere_height = sqrt(sphere_rad * sphere_rad - contact_rad * contact_rad);
 
 // --- Helpers ---
 // Normalize t into [0,1)
@@ -36,7 +40,7 @@ function step_amplitude(n_points) = 0.5 * angular_spacing(n_points);
 // --- Kinematics ---
 function target_point(i, t) =
   let (
-    theta = -15 + i * angular_spacing(n_points) + step_amplitude(n_points) * ramp_profile(t + i / n_points, n_points),
+    theta = base_offset_angle + i * angular_spacing(n_points) + step_amplitude(n_points) * ramp_profile(t + i / n_points, n_points),
     x = contact_centre[0] + contact_rad * sin(theta),
     y = contact_centre[1] - contact_rad * cos(theta),
     z = contact_centre[2] + step_height * step_profile(t + i / n_points, n_points)
@@ -67,14 +71,12 @@ show_sphere = true;
 
 // --- Visualization ---
 if (show_sphere) {
-  sphere_height = sqrt(sphere_rad * sphere_rad - contact_rad * contact_rad);
   translate(contact_centre + [0, 0, 1] * sphere_height)
     rotate([0, 0, ring_angle($t)])
       %sphere(r=sphere_rad);
 }
 
 if (debug) {
-
   // Show initial end effector positions
   for (i = [0:n_points - 1])
     color("red")
