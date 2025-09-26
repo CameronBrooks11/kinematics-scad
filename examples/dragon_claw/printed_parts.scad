@@ -1,6 +1,6 @@
 use <scad-utils/transformations.scad>
 
-use <../../lib/mg90s.scad>
+use <mg90s.scad>
 
 servo_bolt_depth = 10;
 servo_bolt_dia = 1.6;
@@ -35,8 +35,7 @@ bearing_od = 10;
 bearing_id = 3;
 bearing_bolt_len = 12 + 1; // the bolt through the bearing in the tail of the finger servo, needs to be bearing + servo spline length for assembly + length to self-tap
 M3_self_tap_dia = 2.5;
-// plenty of space around 3-pin header
-servo_connector_box = (2.54 * [1, 3]) + [1, 1];
+servo_connector_box = (2.54 * [1, 3]) + [1, 1]; // plenty of space around 3-pin header
 
 //a parameter describing the total width of servo and tail bolt
 function servo_body_length() = (mg90s_shaft_pos()[2] - mg90s_base_pos()[2]);
@@ -45,7 +44,6 @@ function joint_int_width() = servo_body_length() + (bearing_bolt_len - bearing_l
 function joint_width() = joint_int_width() + 2 * spline_mate_len; //total width of the printed joint
 
 function joint_body_width() = joint_int_width() - 2 * mg90s_shaft_len(); // clearance to insert the shaft at the tail side, mirrored on the shaft side
-
 function finger_tail_bolt_len() = 3;
 
 module bearing(od1 = 10, od2 = 8.2, id1 = 3, id2 = 4.8, l = 4, negative = false) {
@@ -70,10 +68,6 @@ module bearing(od1 = 10, od2 = 8.2, id1 = 3, id2 = 4.8, l = 4, negative = false)
       cylinder(d=od2, h=l + 1, center=true);
     }
   }
-}
-
-module palm_bearing_pos(knuckle_motor_pos, knuckle_range) {
-  // XXX no bearings in palm
 }
 
 module palm_part(knuckle_motor_pos, knuckle_range) {
@@ -199,9 +193,7 @@ module knuckle_tail_arch() {
 
 module knuckle_part(i, finger_motor_pos, knuckle_range) {
 
-  knuckle_origin = [0, 0, 0]; //XXX unused
-  knuckle_shaft_pos = knuckle_origin;
-  finger_origin = knuckle_origin + finger_motor_pos[i][0];
+  finger_origin = finger_motor_pos[i][0];
 
   difference() {
     union() {
@@ -448,7 +440,7 @@ module claw_part(i, claw_point_pos) {
           cylinder(h=bearing_bolt_len, d=M3_self_tap_dia);
         }
         hull() {
-          // XXX maybe create an assembly clearance function that takes a path as an arg
+          // TODO: maybe create an assembly clearance function that takes a path as an arg
           cylinder(h=mg90s_shaft_len(), d=spline_mate_dia + 0.5);
           translate([motor_socket_dia / 2, 0, 0]) cylinder(h=mg90s_shaft_len(), d=spline_mate_dia + 0.5);
         }

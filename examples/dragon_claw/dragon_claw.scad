@@ -2,10 +2,10 @@
 use <scad-utils/transformations.scad>
 use <scad-utils/spline.scad>
 
-use <../../lib/mg90s.scad>
-use <../../kinematics.scad>
-
+use <mg90s.scad>
 use <printed_parts.scad>
+
+use <../../kinematics.scad>
 
 $fs = 0.2;
 $fa = 1;

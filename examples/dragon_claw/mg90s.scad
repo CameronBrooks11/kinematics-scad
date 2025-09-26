@@ -31,8 +31,7 @@ mg90s_spline_r2 = (4.7 / 2) + 0.1 * (1 + 6);
 
 mg90s_spline_n = 20;
 mg90s_spline_h = 5; // the length of usable spline on the shaft
-//Actully M2.5, not M3 or M2.
-mg90s_spline_bolt_dia = 2.5;
+mg90s_spline_bolt_dia = 2.5; //Actully M2.5, not M3 or M2.
 
 fudge = 0.01;
 
