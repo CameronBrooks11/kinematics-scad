@@ -79,7 +79,7 @@ if (show_sphere) {
 if (debug) {
   // Show initial end effector positions
   for (i = [0:n_points - 1])
-    color("red")
+    color("green")
       dragon_claw_show_end_effector(claw_index=i, joint_angles=[0, 0, 0]);
 
   // Show target points
