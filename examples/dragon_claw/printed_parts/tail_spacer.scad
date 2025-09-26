@@ -2,6 +2,8 @@ use <scad-utils/transformations.scad>
 
 use <../lib/mg90s.scad>
 
+include <../settings.scad>
+
 // Bearing parameters (623 bearing)
 bearing_len = 4;
 bearing_od = 10;

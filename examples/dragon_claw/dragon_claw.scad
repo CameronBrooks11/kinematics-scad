@@ -13,7 +13,7 @@ use <printed_parts/tail_spacer.scad>
 
 use <../../kinematics.scad>
 
-$fn = $preview ? 16 : 128;
+include <settings.scad>
 
 //number of claws
 n_claws = 5;

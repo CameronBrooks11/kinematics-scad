@@ -3,6 +3,8 @@ use <scad-utils/transformations.scad>
 use <../lib/mg90s.scad>
 use <../lib/bearing.scad>
 
+include <../settings.scad>
+
 servo_bolt_depth = 10;
 servo_bolt_dia = 1.6;
 

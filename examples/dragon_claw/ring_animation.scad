@@ -1,7 +1,7 @@
 use <../../kinematics.scad>
 use <dragon_claw.scad>
 
-$fn = $preview ? 16 : 128;
+include <settings.scad>
 
 // --- Constants ---
 sphere_rad = 90;

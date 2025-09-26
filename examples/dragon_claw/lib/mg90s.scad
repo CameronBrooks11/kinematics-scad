@@ -3,6 +3,8 @@
 // TODO: origin should move to the base of the splines on the shaft
 // -----------------------------------------------------------------------------
 
+include <../settings.scad>
+
 // --- Dimensions ---
 body_dims = [22.8, 12.3, 22.5]; // [length, width, height]
 body_length = body_dims[0];

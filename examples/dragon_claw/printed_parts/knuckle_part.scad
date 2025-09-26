@@ -3,8 +3,7 @@ use <scad-utils/transformations.scad>
 use <../lib/mg90s.scad>
 use <../lib/bearing.scad>
 
-servo_bolt_depth = 10;
-servo_bolt_dia = 1.6;
+include <../settings.scad>
 
 bolt_len = mg90s_shaft_len() + 1; //not the true bolt length, the thread does not reach the bottom of the shaft.
 bolt_head_len = 30;
@@ -14,15 +13,8 @@ rear_flange_bush = 0.5;
 servo_tail_shaft_dia = 5;
 servo_tail_shaft_dia_shank = servo_tail_shaft_dia + 2;
 
-servo_tail_shaft_dia_int = servo_tail_shaft_dia + 0.5;
-servo_tail_shaft_dia_shank_int = servo_tail_shaft_dia_shank + 2;
 servo_tail_thickness = 3;
 
-wrist_pos = [0, 0, -40];
-wrist_dia = 60;
-arm_pos = [-20, -30, -70];
-
-motor_socket_dia = 25;
 motor_socket_clear_dia = 28;
 motor_socket_clear_dia_neck = 20;
 
@@ -32,20 +24,13 @@ spline_mate_top_dia = 12;
 
 //623 bearing
 bearing_len = 4;
-bearing_od = 10;
-bearing_id = 3;
 bearing_bolt_len = 12 + 1; // the bolt through the bearing in the tail of the finger servo, needs to be bearing + servo spline length for assembly + length to self-tap
-M3_self_tap_dia = 2.5;
-servo_connector_box = (2.54 * [1, 3]) + [1, 1]; // plenty of space around 3-pin header
 
 //a parameter describing the total width of servo and tail bolt
 function servo_body_length() = (mg90s_shaft_pos()[2] - mg90s_base_pos()[2]);
 
 function joint_int_width() = servo_body_length() + (bearing_bolt_len - bearing_len); // could add clearance here to avoid crushing the servo with the tail bolt
 function joint_width() = joint_int_width() + 2 * spline_mate_len; //total width of the printed joint
-
-function joint_body_width() = joint_int_width() - 2 * mg90s_shaft_len(); // clearance to insert the shaft at the tail side, mirrored on the shaft side
-function finger_tail_bolt_len() = 3;
 
 module knuckle_bearing_pos(i, finger_motor_pos, knuckle_range) {
   translate(finger_motor_pos[i][0]) rotate(finger_motor_pos[i][1])
