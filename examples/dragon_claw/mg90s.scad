@@ -1,5 +1,5 @@
 // rough model of a MG90S servo motor with convenience functions for significant features
-// XXX origin needs to move to the base of the splines on the shaft
+// TODO origin needs to move to the base of the splines on the shaft
 
 body_dims = [22.8, 12.3, 22.5];
 body_length = body_dims[0];
@@ -16,22 +16,20 @@ wing_split = 1;
 
 gear_drop = 5.6;
 spur_dia = 6;
-spur_pos = ( -body_width) / 2; //XXX check this
+spur_pos = ( -body_width) / 2; //TODO check this
 
 shaft_len = 0.5; //blank length of shaft before the spline
 
 wire_drop = 4; //distance from base to wire
 
-// as measured
-//mg90s_spline_r1=4.2 /2;
-//mg90s_spline_r2=4.7 /2;
 // as printed and tested against an actual shaft
-mg90s_spline_r1 = (4.2 / 2) + 0.1 * (1 - 6);
-mg90s_spline_r2 = (4.7 / 2) + 0.1 * (1 + 6);
+// mg90s_spline_ri= (measured) + (tested)
+mg90s_spline_r1 = (4.2 / 2) + (0.1 * -5);
+mg90s_spline_r2 = (4.7 / 2) + (0.1 * 7);
 
 mg90s_spline_n = 20;
 mg90s_spline_h = 5; // the length of usable spline on the shaft
-mg90s_spline_bolt_dia = 2.5; //Actully M2.5, not M3 or M2.
+mg90s_spline_bolt_dia = 2.5; // Actually M2.5, not M3 or M2.
 
 fudge = 0.01;
 
@@ -150,22 +148,37 @@ module mg90s_section(clearance = 0.1, slice_height = -body_height / 2, use_hull 
   }
 }
 
-//mg90s();
-//mg90s_wire_channel(wrap_under=true);
-/*
-$fs=0.1;
-spacing=7;
-difference(){
-    translate([0,-spacing*3,0])cube([50,50,4],center=true);
-    for(x=[-3:3])for(y=[-6:0])
-    {
-        translate(7*[x,y,0])
-        {
-            spline_shaft(r1=mg90s_spline_r1 +0.1*(x+y), r2=mg90s_spline_r2+0.1*(x-y));
-            translate([0,0,-3])cylinder(d=3.2,h=3);
-        }
-    }
-}
-*/
+module spline_testing_jig() {
 
-//spline_shaft();
+  $fs = 0.1;
+  spacing = 7;
+
+  difference() {
+    // Base plate
+    translate([0, -3 * spacing, 0])
+      cube([50, 50, 4], center=true);
+
+    // Array of spline shafts with clearance holes
+    for (x = [-3:3])
+      for (y = [-6:0]) {
+        translate([spacing * x, spacing * y, -0]) {
+          spline_shaft(
+            r1=mg90s_spline_r1 + 0.1 * (x + y),
+            r2=mg90s_spline_r2 + 0.1 * (x - y)
+          );
+          translate([0, 0, -3])
+            cylinder(d=3.2, h=3);
+        }
+      }
+  }
+}
+
+show_model = false;
+show_jig = false;
+
+if (show_model) {
+  color("Indigo") mg90s();
+  color("Grey") mg90s_wire_channel(wrap_under=true);
+}
+
+if (show_jig) spline_testing_jig();
