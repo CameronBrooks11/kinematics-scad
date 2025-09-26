@@ -168,23 +168,23 @@ function claw_kinematic_chains() =
   ];
 
 //layout of components
-module layout() {
+module layout(show_mg90s = false) {
   palm_part(knuckle_motor_pos, knuckle_motor_range);
   for (i = [0:n_claws - 1])
     translate([-100, 50 * i, 0]) {
       knuckle_part(i, finger_motor_pos, knuckle_motor_range);
-      //%translate(-mg90s_shaft_pos())mg90s();
+      if (show_mg90s) translate(-mg90s_shaft_pos()) mg90s();
     }
   for (i = [0:n_claws - 1])
     translate([-150, 50 * i, finger_tail_bolt_len() / 2]) {
       finger_part(i, claw_motor_pos);
-      //%mg90s();
+      if (show_mg90s) mg90s();
     }
 
   for (i = [0:n_claws - 1])
     translate([-250, 50 * i, finger_tail_bolt_len() / 2]) {
       claw_part(i, claw_point_pos);
-      //%mg90s();
+      if (show_mg90s) mg90s();
     }
 }
 
@@ -193,7 +193,7 @@ render_select = "printed_parts"; // ["assembly", "layout", "printed_parts", "col
 if (render_select == "assembly") {
   assembly([[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
 } else if (render_select == "layout") {
-  render() layout();
+  layout();
 } else if (render_select == "printed_parts") {
 
   translate([0 * 80, 0, 0]) palm_part(knuckle_motor_pos, knuckle_motor_range);
@@ -205,16 +205,16 @@ if (render_select == "assembly") {
   intersection() {
     i = 1;
     pose = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-    //finger_part(i, claw_motor_pos); //finger shroud
+    finger_part(i, claw_motor_pos); //finger shroud
     finger_bearing_pos(i, claw_motor_pos) {
-      //bearing();
+      bearing();
       tail_spacer();
     }
     translate(claw_motor_pos[i][0]) rotate(claw_motor_pos[i][1]) {
         // origin is claw shaft
         rotate(v=-mg90s_shaft_axis(), a=pose[i][2]) translate(-mg90s_shaft_pos()) {
             // origin is claw motor
-            //color("gray")mg90s(a=pose[i][2]);  //claw motor
+            color("gray") mg90s(a=pose[i][2]); //claw motor
             claw_part(i, claw_point_pos); //pointy bit
           }
       }
