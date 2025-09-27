@@ -17,13 +17,6 @@ A clean, modern kinematics library for OpenSCAD featuring forward and inverse ki
 - OpenSCAD 2019.05+
 - [scad-utils](https://github.com/openscad/scad-utils) for matrix operations
 
-## Documentation
-
-📚 **[Documentation](docs/README.md)** - Quick reference and usage
-
-- [API Reference](docs/api-reference.md) - Function documentation
-- [Theory](docs/theory.md) - Mathematical background
-
 ## Examples
 
 - **Dragon Claw** (`examples/dragon_claw/`) - 5-finger robotic hand with 15 DOF
