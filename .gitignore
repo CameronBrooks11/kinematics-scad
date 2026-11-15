@@ -2,3 +2,4 @@
 *.gif
 *.stl
 __pycache__/*
+.scadman/
