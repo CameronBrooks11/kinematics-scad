@@ -1,0 +1,7 @@
+version = 1
+
+[[package]]
+name = "scad-utils"
+source = "https://github.com/openscad/scad-utils"
+rev = "26f8c2cf8124cdafe2fc21f9f9bbf2514e404834"
+hash = "672111c85585f45988e76ba6b8764f81fb27ac361bde34b02c1bcc6c00de018c"

@@ -1,0 +1,6 @@
+[project]
+name = "kinematics-scad"
+
+[dependencies.scad-utils]
+git = "https://github.com/openscad/scad-utils"
+rev = "26f8c2cf8124cdafe2fc21f9f9bbf2514e404834"

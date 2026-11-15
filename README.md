@@ -15,7 +15,12 @@ A clean, modern kinematics library for OpenSCAD featuring forward and inverse ki
 ## Requirements
 
 - OpenSCAD 2019.05+
-- [scad-utils](https://github.com/openscad/scad-utils) for matrix operations
+- [scad-utils](https://github.com/openscad/scad-utils) for matrix operations, pinned in
+  `scadman.lock` to commit `26f8c2c` (upstream has no tags). With
+  [scadman](https://github.com/CameronBrooks11/scadman) installed, `scadman sync` puts it in
+  `.scadman/env/`; add the folder `scadman env` prints to `OPENSCADPATH`, or render with
+  `scadman run`. Without scadman, clone scad-utils into your OpenSCAD libraries folder and
+  check out that commit.
 
 ## Examples
 
